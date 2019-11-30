@@ -7,6 +7,11 @@ import pexpect
 import subprocess
 
 
+class BluetoothctlError(Exception):
+    """This exception is raised, when bluetoothctl fails to start."""
+    pass
+
+
 class BtAutoPair:
     """Class to auto pair and trust with bluetooth."""
 
@@ -30,14 +35,14 @@ class BtAutoPair:
 
     def enable_pairing(self):
         """Make device visible to scanning and enable pairing."""
-        print "pairing enabled"
+        print("pairing enabled")
         try:
             out = self.get_output("power on")
             out = self.get_output("discoverable on")
             out = self.get_output("pairable on")
             out = self.get_output("agent off")
 
-        except BluetoothctlError, e:
+        except BluetoothctlError as e:
             print(e)
             return None
 
@@ -47,6 +52,6 @@ class BtAutoPair:
             out = self.get_output("discoverable off")
             out = self.get_output("pairable off")
 
-        except BluetoothctlError, e:
+        except BluetoothctlError as e:
             print(e)
             return None
